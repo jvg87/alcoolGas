@@ -1,17 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
-export default function InfoModal({ close }) {
+export default function InfoModal({ close, choice, gas, alcool }) {
   return (
     <View style={styles.container}>
       <Image
         source={require('../../images/gas.png')}
       />
-      <Text style={styles.title}>Compensa usar Álcool</Text>
+      <Text style={styles.title}>Compensa usar {choice}</Text>
       <View style={styles.results}>
         <Text style={styles.tilteResults}>Com os preços:</Text>
-        <Text style={styles.textResults}>Álcool: R$ 4.60</Text>
-        <Text style={styles.textResults}>Gasolina: R$ 7.60</Text>
+        <Text style={styles.textResults}>Álcool: R$ {alcool}</Text>
+        <Text style={styles.textResults}>Gasolina: R$ {gas}</Text>
         <TouchableOpacity 
           style={styles.btn}
           onPress={close}

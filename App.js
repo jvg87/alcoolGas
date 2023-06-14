@@ -1,23 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Modal } from 'react-native'
 import InfoModal from './src/components/InfoModal';
 
 export default function App() {
-  const [alcool, setAlcool] = useState('');
-  const [gas, setGas] = useState('');
+  const [alcool, setAlcool] = useState(0);
+  const [gas, setGas] = useState(0);
+  const [choice, setChoice] = useState('');
 
   const [showModal, setShowModal] = useState(false);
+
+  const inputRef = useRef();
 
   function handleCalc(){
     if (alcool === '' || gas === ''){
       alert('Preencha os campos!');
       return;
     }
-    setShowModal(!showModal)
+    const calc = parseFloat(alcool) / parseFloat(gas);
+    if (calc <= 0.7 ){
+      setShowModal(!showModal)
+      setChoice('Álcool')
+    } else {
+      setShowModal(!showModal)
+      setChoice('Gasolina')
+    }
   }
 
   function handleClose(){
-    setShowModal(!showModal)
+    setShowModal(!showModal);
+    setAlcool('');
+    setGas('');
+    inputRef.current.focus();
   }
 
   return (
@@ -40,6 +53,7 @@ export default function App() {
           onChangeText={(text) => setAlcool(text)}
           value={alcool}
           keyboardType='numeric'
+          ref={inputRef}
         />
         <Text style={styles.label}>Gasolina (preço por litro):</Text>
         <TextInput
@@ -61,6 +75,9 @@ export default function App() {
         >
           <InfoModal
             close={handleClose}
+            choice={choice}
+            gas={gas}
+            alcool={alcool}
           />
         </Modal>
       </View>
