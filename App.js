@@ -1,9 +1,25 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Modal } from 'react-native'
+import InfoModal from './src/components/InfoModal';
 
 export default function App() {
   const [alcool, setAlcool] = useState('');
   const [gas, setGas] = useState('');
+
+  const [showModal, setShowModal] = useState(false);
+
+  function handleCalc(){
+    if (alcool === '' || gas === ''){
+      alert('Preencha os campos!');
+      return;
+    }
+    setShowModal(!showModal)
+  }
+
+  function handleClose(){
+    setShowModal(!showModal)
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -34,9 +50,19 @@ export default function App() {
         />
         <TouchableOpacity
           style={styles.calcButton}
+          onPress={handleCalc}
         >
           <Text style={styles.textButton}>Calcular</Text>
         </TouchableOpacity>
+        <Modal
+          animationType='slide'
+          transparent={false}
+          visible={showModal}
+        >
+          <InfoModal
+            close={handleClose}
+          />
+        </Modal>
       </View>
     </View>
   )
@@ -73,7 +99,7 @@ const styles = StyleSheet.create({
   },
   calcButton: {
     width: '100%',
-    backgroundColor: '#af4130',
+    backgroundColor: '#ff502f',
     borderRadius: 5,
     marginTop: 20,
     padding: 10,
